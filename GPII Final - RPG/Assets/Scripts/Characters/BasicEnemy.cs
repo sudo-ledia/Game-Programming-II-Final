@@ -7,13 +7,14 @@ public class BasicEnemy : EnemyBase
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.FindWithTag("Player")?.GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        DisplayHealth();
+        DisplayInfo();
         Health();
+        CallPlayerDir();
     }
 }
