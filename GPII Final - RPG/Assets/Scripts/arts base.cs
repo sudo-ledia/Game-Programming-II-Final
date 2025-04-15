@@ -16,12 +16,12 @@ public class artsbase : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Purely debugging
-        if(Input.GetKey(KeyCode.Space))
-        {
-            ArtsDamage();
-            Debug.Log("Arts Update Triggered.");
-        }
+    //     //Purely debugging
+    //     if(Input.GetKey(KeyCode.Space))
+    //     {
+    //         ArtsDamage();
+    //         Debug.Log("Arts Update Triggered.");
+    //     }
     }
 
     public void ArtsDamage()
