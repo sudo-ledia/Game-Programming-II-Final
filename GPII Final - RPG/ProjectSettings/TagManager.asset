@@ -6,6 +6,7 @@ TagManager:
   tags:
   - EnemyHealth
   - PlayerHealth
+  - Enemy
   layers:
   - Default
   - TransparentFX
