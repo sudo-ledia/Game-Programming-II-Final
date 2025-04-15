@@ -11,6 +11,7 @@ TagManager:
   - PosB
   - PosL
   - PosR
+  - TargetDirection
   layers:
   - Default
   - TransparentFX
