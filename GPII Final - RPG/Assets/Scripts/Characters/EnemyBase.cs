@@ -70,7 +70,7 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public void CallPlayerDir()
+    public virtual void CallPlayerDir()
     {
         var dir = GetDirectionOf(player);
         Debug.Log("Player is to my: " + dir);

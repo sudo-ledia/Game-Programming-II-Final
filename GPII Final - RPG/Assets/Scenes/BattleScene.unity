@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3848,9 +3848,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArtsObj
       objectReference: {fileID: 0}
+    - target: {fileID: 4116176527206967628, guid: e686cd50f742b384c9312abded755076, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8327268978829358312, guid: e686cd50f742b384c9312abded755076, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8327268978829358312, guid: e686cd50f742b384c9312abded755076, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4170,7 +4174,7 @@ Transform:
   - {fileID: 3321555}
   - {fileID: 446423868}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1552354577
 GameObject:
@@ -4224,7 +4228,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1723636414
 GameObject:
