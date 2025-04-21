@@ -10,7 +10,7 @@ public class EnemyBase : MonoBehaviour
     public TextMeshProUGUI displayEnemyHealth;
     public TextMeshProUGUI targetDirection;
 
-    public Transform player;
+    public GameObject player;
 
     public GameManager gameManager;
     public CameraControl cameraControl;
@@ -23,7 +23,8 @@ public class EnemyBase : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindWithTag("Player")?.GetComponent<Transform>();
+        player = GameObject.FindWithTag("Player");
+        //?.GetComponent<Transform>()
         cameraControl = FindObjectOfType<CameraControl>();
     }
     // Update is called once per frame
@@ -54,8 +55,7 @@ public class EnemyBase : MonoBehaviour
     {
         Front,
         Back,
-        Left, 
-        Right
+        Side
     }
 
     public RelativeDirection GetDirectionOf(Transform target)
@@ -69,11 +69,11 @@ public class EnemyBase : MonoBehaviour
         }
         else if (angle > 45f && angle <= 135f)
         {
-            return RelativeDirection.Right;
+            return RelativeDirection.Side;
         }  
         else if (angle < -45f && angle >= -135f)
         {
-            return RelativeDirection.Left;
+            return RelativeDirection.Side;
         }   
         else
         {
@@ -83,7 +83,7 @@ public class EnemyBase : MonoBehaviour
 
     public virtual void CallPlayerDir()
     {
-        var dir = GetDirectionOf(player);
+        var dir = GetDirectionOf(player.transform);
         // Debug.Log("Player is to my: " + dir);
     }
 
