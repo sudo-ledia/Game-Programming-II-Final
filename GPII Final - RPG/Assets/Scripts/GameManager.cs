@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [Header("Targeting")]
-    public List<Transform> enemiesInRange = new List<Transform>();
+    public List<GameObject> enemiesInRange = new List<GameObject>();
     
     // Start is called before the first frame update
     void Start()
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void AddEnemyToList(Transform enemy)
+    public void AddEnemyToList(GameObject enemy)
     {
         if (!enemiesInRange.Contains(enemy))
         {
@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void RemoveEnemyFromList(Transform enemy)
+    public void RemoveEnemyFromList(GameObject enemy)
     {
         if (enemiesInRange.Contains(enemy))
         {

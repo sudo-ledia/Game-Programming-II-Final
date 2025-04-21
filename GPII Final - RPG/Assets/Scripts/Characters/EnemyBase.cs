@@ -13,6 +13,7 @@ public class EnemyBase : MonoBehaviour
     public Transform player;
 
     public GameManager gameManager;
+    public CameraControl cameraControl;
 
     void Awake()
     {
@@ -23,7 +24,7 @@ public class EnemyBase : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.GetComponent<Transform>();
-        
+        cameraControl = FindObjectOfType<CameraControl>();
     }
     // Update is called once per frame
     void Update()
@@ -43,6 +44,8 @@ public class EnemyBase : MonoBehaviour
     {
         if(health <= 0)
         {
+            cameraControl.NextTarget();
+            gameManager.RemoveEnemyFromList(this.gameObject);
             Destroy(gameObject);
         }
     }
@@ -88,7 +91,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            gameManager.AddEnemyToList(this.transform);
+            gameManager.AddEnemyToList(this.gameObject);
         }
     }
 
@@ -96,7 +99,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            gameManager.RemoveEnemyFromList(this.transform);
+            gameManager.RemoveEnemyFromList(this.gameObject);
         }
     }
 }

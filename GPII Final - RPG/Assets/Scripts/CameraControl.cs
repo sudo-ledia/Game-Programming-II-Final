@@ -8,7 +8,7 @@ public class CameraControl : MonoBehaviour
     public Transform orientation;
     public Transform player;
     public Transform playerObj;
-    public Transform enemy;
+    public GameObject enemy;
     public Rigidbody rb;
 
     public float rotationSpeed;
@@ -46,7 +46,15 @@ public class CameraControl : MonoBehaviour
                 currentEnemyIndex = 0;
                 enemy = gameManager.enemiesInRange[currentEnemyIndex];
             }
-
+        }
+        
+        if (gameManager.enemiesInRange.Count <= 0)
+        {
+            enemy = null;
+        }
+        if (enemy == null)
+        {
+            isTargeting = false;
         }
 
         if(isTargeting)
@@ -57,22 +65,11 @@ public class CameraControl : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                currentEnemyIndex++;
-
-                if (currentEnemyIndex >= gameManager.enemiesInRange.Count)
-                {
-                    currentEnemyIndex = 0;
-                }
-                enemy = gameManager.enemiesInRange[currentEnemyIndex];
+                NextTarget();
             }
             else if (Input.GetKeyDown(KeyCode.Q))
             {
-                currentEnemyIndex--;
-                if (currentEnemyIndex < 0)
-                {
-                    currentEnemyIndex = gameManager.enemiesInRange.Count - 1;
-                }
-                enemy = gameManager.enemiesInRange[currentEnemyIndex];
+                PreviousTarget();
             }
         }
         else if(!isTargeting)
@@ -103,18 +100,53 @@ public class CameraControl : MonoBehaviour
         }
     }
 
-    public void TargetCam()
+    public void NextTarget()
     {
-        Vector3 playerPreDir = enemy.position - player.transform.position;
-        playerPreDir.y = 0;
-        Quaternion playerPreTargetRotation = Quaternion.LookRotation(playerPreDir);
-        player.transform.rotation = playerPreTargetRotation;
+        currentEnemyIndex++;
 
-        Vector3 playerObjDir = enemy.position - playerObj.transform.position;
-        playerObjDir.y = 0;
-        Quaternion playerObjTargetRotation = Quaternion.LookRotation(playerObjDir);
-        playerObj.transform.rotation = playerObjTargetRotation;
+        if (currentEnemyIndex >= gameManager.enemiesInRange.Count)
+        {
+            currentEnemyIndex = 0;
+        }
+        enemy = gameManager.enemiesInRange[currentEnemyIndex];
+    }
 
-        orientation.forward = playerPreDir.normalized;
+    public void PreviousTarget()
+    {
+        currentEnemyIndex--;
+        if (currentEnemyIndex < 0)
+        {
+            currentEnemyIndex = gameManager.enemiesInRange.Count - 1;
+        }
+        enemy = gameManager.enemiesInRange[currentEnemyIndex];
+    }
+
+    public void TargetCam()
+    {   
+        if (enemy != null)
+        {
+            Vector3 playerPreDir = enemy.transform.position - player.transform.position;
+            playerPreDir.y = 0;
+            Quaternion playerPreTargetRotation = Quaternion.LookRotation(playerPreDir);
+            player.transform.rotation = playerPreTargetRotation;
+
+            Vector3 playerObjDir = enemy.transform.position - playerObj.transform.position;
+            playerObjDir.y = 0;
+            Quaternion playerObjTargetRotation = Quaternion.LookRotation(playerObjDir);
+            playerObj.transform.rotation = playerObjTargetRotation;
+
+            orientation.forward = playerPreDir.normalized;
+        }
+        else if (enemy == null && gameManager.enemiesInRange.Count > 0)
+        {
+            NextTarget();
+            Debug.Log("Enemy null, skip");
+        }
+        else if (enemy == null && gameManager.enemiesInRange.Count < 1 && isTargeting)
+        {
+            isTargeting = false;
+        }
+    
+        
     }
 }

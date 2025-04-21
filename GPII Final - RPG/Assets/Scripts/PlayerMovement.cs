@@ -24,19 +24,16 @@ public class PlayerMovement : MonoBehaviour
     
     public Transform orientation;
 
-    float horizontalInput;
-    float verticalInput;
+    public float horizontalInput;
+    public float verticalInput;
 
-    Vector3 moveDirection;
+    public Vector3 moveDirection;
 
-    Rigidbody rb;
+    public Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-        
-        readyToJump = true;
+        StartFunctions();
     }
 
     // Update is called once per frame
@@ -71,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void MovePlayer()
+    public void MovePlayer()
     {
         //calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
@@ -87,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    private void SpeedControl()
+    public void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
@@ -99,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Jump()
+    public void Jump()
     {
         //reset y velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
@@ -107,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
 
-    private void ResetJump()
+    public void ResetJump()
     {
         readyToJump = true;
     }
@@ -126,5 +123,14 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.drag = 0;
         }
+    }
+
+    // specifcally for inheritence purposes
+    public void StartFunctions()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
+        
+        readyToJump = true;
     }
 }

@@ -8,6 +8,7 @@ public class BasicEnemy : EnemyBase
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.GetComponent<Transform>();
+        cameraControl = FindObjectOfType<CameraControl>();
     }
 
     // Update is called once per frame
