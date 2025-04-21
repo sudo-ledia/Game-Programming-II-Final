@@ -12,10 +12,18 @@ public class EnemyBase : MonoBehaviour
 
     public Transform player;
 
+    public GameManager gameManager;
+
+    void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.GetComponent<Transform>();
+        
     }
     // Update is called once per frame
     void Update()
@@ -73,6 +81,22 @@ public class EnemyBase : MonoBehaviour
     public virtual void CallPlayerDir()
     {
         var dir = GetDirectionOf(player);
-        Debug.Log("Player is to my: " + dir);
+        // Debug.Log("Player is to my: " + dir);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            gameManager.AddEnemyToList(this.transform);
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            gameManager.RemoveEnemyFromList(this.transform);
+        }
     }
 }

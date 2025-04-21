@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         SpeedControl();
     }
 
-    private void MyInput()
+    public void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
@@ -112,11 +112,11 @@ public class PlayerMovement : MonoBehaviour
         readyToJump = true;
     }
 
-    void GroundCheck()
+    public void GroundCheck()
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
     }
-    void DragHandler()
+    public void DragHandler()
     {
         if (grounded)
         {
