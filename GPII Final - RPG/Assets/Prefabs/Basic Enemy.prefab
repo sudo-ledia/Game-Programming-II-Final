@@ -626,3 +626,8 @@ MonoBehaviour:
   targetDirection: {fileID: 4988031948655561350}
   player: {fileID: 0}
   gameManager: {fileID: 0}
+  cameraControl: {fileID: 0}
+  lowInterval: 5
+  highInterval: 9
+  attackTimer: 0
+  attackInterval: 5

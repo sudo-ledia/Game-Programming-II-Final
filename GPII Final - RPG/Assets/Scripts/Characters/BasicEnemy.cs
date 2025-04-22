@@ -16,6 +16,7 @@ public class BasicEnemy : EnemyBase
     {
         DisplayInfo();
         Health();
-        CallPlayerDir();
+        Attack();
+        // CallPlayerDir();
     }
 }

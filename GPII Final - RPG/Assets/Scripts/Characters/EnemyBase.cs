@@ -15,6 +15,12 @@ public class EnemyBase : MonoBehaviour
     public GameManager gameManager;
     public CameraControl cameraControl;
 
+    public float lowInterval;
+    public float highInterval;
+    public float attackTimer = 0f;
+    public float attackInterval; 
+    
+
     void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -26,13 +32,15 @@ public class EnemyBase : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         //?.GetComponent<Transform>()
         cameraControl = FindObjectOfType<CameraControl>();
+        attackInterval = Random.Range(lowInterval, highInterval);
     }
     // Update is called once per frame
     void Update()
     {
         DisplayInfo();
         Health();
-        CallPlayerDir();
+        Attack();
+        // CallPlayerDir();
     }
 
     public void DisplayInfo()
@@ -61,6 +69,13 @@ public class EnemyBase : MonoBehaviour
     public RelativeDirection GetDirectionOf(Transform target)
     {
         Vector3 toTarget = (target.position - transform.position).normalized;
+
+        // SignedAngle parameters are (From, to, and angle)
+
+        /* this function in particular takes the enemies transform.forward angle and compares
+        it to the players transform.position based on the y axis,
+        which in this case is the global vector3.up - chris note for remembering*/
+
         float angle = Vector3.SignedAngle(transform.forward, toTarget, Vector3.up);
 
         if (angle >= -45f && angle <= 45f)
@@ -81,11 +96,26 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public virtual void CallPlayerDir()
+    // Enemy Attack Logic
+
+    public virtual void Attack()
     {
-        var dir = GetDirectionOf(player.transform);
-        // Debug.Log("Player is to my: " + dir);
+        attackTimer += Time.deltaTime;
+
+        if (attackTimer >= attackInterval)
+        {
+            // if npc allies or something, this will have to be changed to who the enemy is targeting
+            player.GetComponent<PlayerRPG>().health -= 1;
+            attackTimer = 0f;
+            attackInterval = Random.Range(lowInterval, highInterval);
+        }
     }
+
+    // public virtual void CallPlayerDir()
+    // {
+    //     var dir = GetDirectionOf(player.transform);
+    //     // Debug.Log("Player is to my: " + dir);
+    // }
 
     public void OnTriggerEnter(Collider other)
     {

@@ -24,6 +24,8 @@ public class PlayerRPG : PlayerMovement
         GroundCheck();
         MyInput();
         DragHandler();
+        DisplayHealth();
+        Health();
 
         enemy = cameraControl.enemy;
 
@@ -84,6 +86,14 @@ public class PlayerRPG : PlayerMovement
         else
         {
             enemy.GetComponent<EnemyBase>().health -= baseDamage;
+        }
+    }
+
+    public override void Health()
+    {
+        if (health <= 0)
+        {
+            displayPlayerHealth.text = "Dead";
         }
     }
 }

@@ -617,7 +617,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &206742666
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1451,7 +1451,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &679541272
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2133,7 +2133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &891147271
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2584,7 +2584,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1098263661
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3057,6 +3057,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae8aeb559d1fe648902209ad76d96fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterName: 
+  health: 100
+  displayPlayerHealth: {fileID: 262953163}
   moveSpeed: 5
   groundDrag: 7
   jumpForce: 12
@@ -3076,6 +3079,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   cameraControl: {fileID: 0}
   enemy: {fileID: 0}
+  atkDirection: None
 --- !u!1 &1193151569
 GameObject:
   m_ObjectHideFlags: 3
@@ -4655,7 +4659,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1844879259
 RectTransform:
   m_ObjectHideFlags: 0

@@ -82,6 +82,8 @@ public class CameraControl : MonoBehaviour
 
     public void FreeLookCam()
     {
+
+        enemy = null;
         //Rotation Orient
         Vector3 viewDir = player.position - new Vector3(
             transform.position.x,
