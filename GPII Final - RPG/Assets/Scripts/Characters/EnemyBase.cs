@@ -11,6 +11,7 @@ public class EnemyBase : MonoBehaviour
     public TextMeshProUGUI targetDirection;
 
     public GameObject hero;
+    public GameObject player;
 
     public GameManager gameManager;
     public CameraControl cameraControl;
@@ -22,6 +23,8 @@ public class EnemyBase : MonoBehaviour
 
     public int currentHeroIndex = 0;
 
+    public List<GameObject> heroesInRange = new List<GameObject>();
+
     void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -30,9 +33,7 @@ public class EnemyBase : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //player = GameObject.FindWithTag("Player");
-
-        hero = gameManager.enemiesInRange[currentHeroIndex];
+        player = GameObject.FindWithTag("Player");
         //?.GetComponent<Transform>()
         cameraControl = FindObjectOfType<CameraControl>();
         attackInterval = Random.Range(lowInterval, highInterval);
@@ -42,14 +43,20 @@ public class EnemyBase : MonoBehaviour
     {
         DisplayInfo();
         Health();
-        Attack();
-        // CallPlayerDir();
+        HasTarget();
+        if (hero != null)
+        {
+            Attack();
+        }
+        PurgeHeroes();
+
+
     }
 
     public void DisplayInfo()
     {
         displayEnemyHealth.text = "Health: " + health;
-        targetDirection.text = "Direction: " + GetDirectionOf(hero.transform);
+        targetDirection.text = "Direction: " + GetDirectionOf(player.transform);
     }
 
     public virtual void Health()
@@ -57,9 +64,8 @@ public class EnemyBase : MonoBehaviour
         if(health <= 0)
         {
             cameraControl.NextTarget();
-            gameManager.RemoveEnemyFromList(this.gameObject);
             Destroy(gameObject);
-        }
+        }   
     }
 
     public enum RelativeDirection
@@ -101,6 +107,18 @@ public class EnemyBase : MonoBehaviour
 
     // Enemy Attack Logic
 
+    public void HasTarget()
+    {
+        if (heroesInRange.Count > 0)
+        {
+            hero = heroesInRange[0];
+        }
+        else if (heroesInRange.Count < 0)
+        {
+            return;
+        }
+    }
+
     public virtual void Attack()
     {
         attackTimer += Time.deltaTime;
@@ -114,25 +132,45 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    // public virtual void CallPlayerDir()
-    // {
-    //     var dir = GetDirectionOf(player.transform);
-    //     // Debug.Log("Player is to my: " + dir);
-    // }
+    // Adding heroes to list
+    public void AddHeroesToList(GameObject hero)
+    {
+        if (!heroesInRange.Contains(hero))
+        {
+            heroesInRange.Add(hero);
+            Debug.Log("Hero added: " + hero.name);
+        }
+    }
+
+    public void RemoveHeroesFromList(GameObject hero)
+    {
+        if (heroesInRange.Contains(hero))
+        {
+            heroesInRange.Remove(hero);
+            Debug.Log("Hero removed: " + hero.name);
+        }
+    }
+
+    public void PurgeHeroes()
+    {
+        heroesInRange.RemoveAll(item => item == null);
+    }
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            gameManager.AddEnemyToList(this.gameObject);
+            AddHeroesToList(other.gameObject);
         }
     }
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player"
+        || other.gameObject.tag == "PartyMember")
         {
-            gameManager.RemoveEnemyFromList(this.gameObject);
+            RemoveHeroesFromList(other.gameObject);
         }
     }
+    
 }

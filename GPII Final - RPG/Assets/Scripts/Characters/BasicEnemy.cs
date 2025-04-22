@@ -7,7 +7,9 @@ public class BasicEnemy : EnemyBase
     // Start is called before the first frame update
     void Start()
     {
-        hero = GameObject.FindWithTag("Player");
+        // hero = GameObject.FindWithTag("Player");
+        // hero = heroesInRange[currentHeroIndex];
+        player = GameObject.FindWithTag("Player");
         cameraControl = FindObjectOfType<CameraControl>();
     }
 
@@ -16,7 +18,11 @@ public class BasicEnemy : EnemyBase
     {
         DisplayInfo();
         Health();
-        Attack();
-        // CallPlayerDir();
+        HasTarget();
+        if (hero != null)
+        {
+            Attack();
+        }
+        PurgeHeroes();
     }
 }

@@ -12,6 +12,7 @@ TagManager:
   - PosL
   - PosR
   - TargetDirection
+  - PartyMember
   layers:
   - Default
   - TransparentFX
@@ -24,8 +25,8 @@ TagManager:
   - 
   - 
   - whatIsground
-  - 
-  - 
+  - HeroTrigger
+  - EnemyTrigger
   - 
   - 
   - 

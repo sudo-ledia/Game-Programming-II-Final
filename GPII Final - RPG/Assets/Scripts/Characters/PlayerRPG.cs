@@ -25,6 +25,7 @@ public class PlayerRPG : PlayerMovement
         MyInput();
         DragHandler();
         DisplayHealth();
+        PurgeEnemies();
         Health();
 
         enemy = cameraControl.enemy;

@@ -6,7 +6,8 @@ public class CameraControl : MonoBehaviour
 {
     [Header("References")]
     public Transform orientation;
-    public Transform player;
+    public Transform playerTransform;
+    public PlayerRPG playerRPG;
     public Transform playerObj;
     public GameObject enemy;
     public Rigidbody rb;
@@ -18,13 +19,12 @@ public class CameraControl : MonoBehaviour
     public GameObject virtualCamera;
     public GameObject freeLookCamera;
 
-    public GameManager gameManager;
     public int currentEnemyIndex = 0;
 
     // Start is called before the first frame update
     void Awake()
     {
-        gameManager = FindObjectOfType<GameManager>();
+        playerRPG = FindObjectOfType<PlayerRPG>();
     }
     
     void Start()
@@ -41,14 +41,14 @@ public class CameraControl : MonoBehaviour
         {
             isTargeting = !isTargeting;
 
-            if (isTargeting && gameManager.enemiesInRange.Count > 0)
+            if (isTargeting && playerRPG.yourEnemiesInRange.Count > 0)
             {
                 currentEnemyIndex = 0;
-                enemy = gameManager.enemiesInRange[currentEnemyIndex];
+                enemy = playerRPG.yourEnemiesInRange[currentEnemyIndex];
             }
         }
         
-        if (gameManager.enemiesInRange.Count <= 0)
+        if (playerRPG.yourEnemiesInRange.Count <= 0)
         {
             enemy = null;
         }
@@ -85,9 +85,9 @@ public class CameraControl : MonoBehaviour
 
         enemy = null;
         //Rotation Orient
-        Vector3 viewDir = player.position - new Vector3(
+        Vector3 viewDir = playerTransform.position - new Vector3(
             transform.position.x,
-            player.position.y,
+            playerTransform.position.y,
             transform.position.z);
         orientation.forward = viewDir.normalized;
 
@@ -106,11 +106,11 @@ public class CameraControl : MonoBehaviour
     {
         currentEnemyIndex++;
 
-        if (currentEnemyIndex >= gameManager.enemiesInRange.Count)
+        if (currentEnemyIndex >= playerRPG.yourEnemiesInRange.Count)
         {
             currentEnemyIndex = 0;
         }
-        enemy = gameManager.enemiesInRange[currentEnemyIndex];
+        enemy = playerRPG.yourEnemiesInRange[currentEnemyIndex];
     }
 
     public void PreviousTarget()
@@ -118,19 +118,19 @@ public class CameraControl : MonoBehaviour
         currentEnemyIndex--;
         if (currentEnemyIndex < 0)
         {
-            currentEnemyIndex = gameManager.enemiesInRange.Count - 1;
+            currentEnemyIndex = playerRPG.yourEnemiesInRange.Count - 1;
         }
-        enemy = gameManager.enemiesInRange[currentEnemyIndex];
+        enemy = playerRPG.yourEnemiesInRange[currentEnemyIndex];
     }
 
     public void TargetCam()
     {   
         if (enemy != null)
         {
-            Vector3 playerPreDir = enemy.transform.position - player.transform.position;
+            Vector3 playerPreDir = enemy.transform.position - playerTransform.transform.position;
             playerPreDir.y = 0;
             Quaternion playerPreTargetRotation = Quaternion.LookRotation(playerPreDir);
-            player.transform.rotation = playerPreTargetRotation;
+            playerTransform.transform.rotation = playerPreTargetRotation;
 
             Vector3 playerObjDir = enemy.transform.position - playerObj.transform.position;
             playerObjDir.y = 0;
@@ -139,12 +139,12 @@ public class CameraControl : MonoBehaviour
 
             orientation.forward = playerPreDir.normalized;
         }
-        else if (enemy == null && gameManager.enemiesInRange.Count > 0)
+        else if (enemy == null && playerRPG.yourEnemiesInRange.Count > 0)
         {
             NextTarget();
             Debug.Log("Enemy null, skip");
         }
-        else if (enemy == null && gameManager.enemiesInRange.Count < 1 && isTargeting)
+        else if (enemy == null && playerRPG.yourEnemiesInRange.Count < 1 && isTargeting)
         {
             isTargeting = false;
         }
