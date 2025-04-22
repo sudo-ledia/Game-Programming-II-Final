@@ -484,6 +484,7 @@ GameObject:
   - component: {fileID: 8022453836987593584}
   - component: {fileID: 1170203193191015858}
   - component: {fileID: 6448877728257549943}
+  - component: {fileID: 5620167033169568086}
   m_Layer: 0
   m_Name: Basic Enemy
   m_TagString: Enemy
@@ -506,7 +507,7 @@ Transform:
   - {fileID: 6324582333237615515}
   - {fileID: 2023366177288484847}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1345855545640748533
 MeshFilter:
@@ -631,3 +632,27 @@ MonoBehaviour:
   highInterval: 9
   attackTimer: 0
   attackInterval: 5
+  currentHeroIndex: 0
+--- !u!136 &5620167033169568086
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8400219593643392682}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 15
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

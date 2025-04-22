@@ -2,21 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicEnemy : EnemyBase
+public class PartyMember : HeroBase
 {
+
     // Start is called before the first frame update
     void Start()
     {
-        hero = GameObject.FindWithTag("Player");
-        cameraControl = FindObjectOfType<CameraControl>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        DisplayInfo();
+        DisplayHealth();
         Health();
-        Attack();
-        // CallPlayerDir();
+    }
+
+    public override void Health()
+    {
+        if (health <= 0)
+        {
+            displayCharacterHealth.text = "Dead";
+        }
     }
 }

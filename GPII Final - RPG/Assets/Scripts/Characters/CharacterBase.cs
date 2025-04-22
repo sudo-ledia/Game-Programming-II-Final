@@ -7,13 +7,19 @@ public class CharacterBase : MonoBehaviour
 {
     public string characterName;
     public int health;
-    public TextMeshProUGUI displayPlayerHealth;
+    public TextMeshProUGUI displayCharacterHealth;
 
+    public GameManager gameManager;
+
+    void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        displayPlayerHealth = GameObject.FindGameObjectWithTag("PlayerHealth")?.GetComponent<TextMeshProUGUI>();
+        displayCharacterHealth = GameObject.FindGameObjectWithTag("PlayerHealth")?.GetComponent<TextMeshProUGUI>();
     }
     // Update is called once per frame
     void Update()
@@ -25,7 +31,7 @@ public class CharacterBase : MonoBehaviour
 
     public void DisplayHealth()
     {
-        displayPlayerHealth.text = "Health: " + health;
+        displayCharacterHealth.text = "Health: " + health;
     }
 
     public virtual void Health()

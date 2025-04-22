@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerRPG : PlayerMovement
 {
-    private GameManager gameManager;
+    // private GameManager gameManager;
     public CameraControl cameraControl;
     public GameObject enemy;
 
@@ -14,7 +14,7 @@ public class PlayerRPG : PlayerMovement
     void Start()
     {
         StartFunctions();
-        gameManager = FindObjectOfType<GameManager>();
+        // gameManager = FindObjectOfType<GameManager>();
         cameraControl = FindObjectOfType<CameraControl>();
     }
 
@@ -93,7 +93,7 @@ public class PlayerRPG : PlayerMovement
     {
         if (health <= 0)
         {
-            displayPlayerHealth.text = "Dead";
+            displayCharacterHealth.text = "Dead";
         }
     }
 }

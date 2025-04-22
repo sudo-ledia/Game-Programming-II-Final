@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : CharacterBase
+public class PlayerMovement : HeroBase
 {
     [Header("Movement")]
     public float moveSpeed;

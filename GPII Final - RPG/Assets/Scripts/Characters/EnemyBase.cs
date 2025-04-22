@@ -10,7 +10,7 @@ public class EnemyBase : MonoBehaviour
     public TextMeshProUGUI displayEnemyHealth;
     public TextMeshProUGUI targetDirection;
 
-    public GameObject player;
+    public GameObject hero;
 
     public GameManager gameManager;
     public CameraControl cameraControl;
@@ -18,8 +18,9 @@ public class EnemyBase : MonoBehaviour
     public float lowInterval;
     public float highInterval;
     public float attackTimer = 0f;
-    public float attackInterval; 
-    
+    public float attackInterval;
+
+    public int currentHeroIndex = 0;
 
     void Awake()
     {
@@ -29,7 +30,9 @@ public class EnemyBase : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
+        //player = GameObject.FindWithTag("Player");
+
+        hero = gameManager.enemiesInRange[currentHeroIndex];
         //?.GetComponent<Transform>()
         cameraControl = FindObjectOfType<CameraControl>();
         attackInterval = Random.Range(lowInterval, highInterval);
@@ -46,7 +49,7 @@ public class EnemyBase : MonoBehaviour
     public void DisplayInfo()
     {
         displayEnemyHealth.text = "Health: " + health;
-        targetDirection.text = "Direction: " + GetDirectionOf(player.transform);
+        targetDirection.text = "Direction: " + GetDirectionOf(hero.transform);
     }
 
     public virtual void Health()
@@ -105,7 +108,7 @@ public class EnemyBase : MonoBehaviour
         if (attackTimer >= attackInterval)
         {
             // if npc allies or something, this will have to be changed to who the enemy is targeting
-            player.GetComponent<PlayerRPG>().health -= 1;
+            hero.GetComponent<HeroBase>().health -= 1;
             attackTimer = 0f;
             attackInterval = Random.Range(lowInterval, highInterval);
         }

@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     [Header("Targeting")]
     public List<GameObject> enemiesInRange = new List<GameObject>();
+
+    public List<GameObject> heroesInRange = new List<GameObject>();
     
     // Start is called before the first frame update
     void Start()
@@ -34,6 +36,24 @@ public class GameManager : MonoBehaviour
         {
             enemiesInRange.Remove(enemy);
             Debug.Log("Enemy removed: " + enemy.name);
+        }
+    }
+
+    public void AddHeroesToList(GameObject hero)
+    {
+        if (!heroesInRange.Contains(hero))
+        {
+            heroesInRange.Add(hero);
+            Debug.Log("Hero added: " + hero.name);
+        }
+    }
+
+    public void RemoveHeroesFromList(GameObject hero)
+    {
+        if (heroesInRange.Contains(hero))
+        {
+            heroesInRange.Remove(hero);
+            Debug.Log("Hero removed: " + hero.name);
         }
     }
 }
