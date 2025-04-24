@@ -35,9 +35,9 @@ public class PartyMember : HeroBase
         {
             enemy = yourEnemiesInRange[0];
         }
-        else if (yourEnemiesInRange.Count < 0)
+        else if (yourEnemiesInRange.Count <= 0)
         {
-            return;
+            enemy = null;
         }
     }
 

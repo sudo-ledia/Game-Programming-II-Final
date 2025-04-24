@@ -113,7 +113,7 @@ public class EnemyBase : MonoBehaviour
         {
             hero = heroesInRange[0];
         }
-        else if (heroesInRange.Count < 0)
+        else if (heroesInRange.Count <= 0)
         {
             return;
         }
@@ -158,7 +158,8 @@ public class EnemyBase : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player"
+        || other.gameObject.tag == "PartyMember")
         {
             AddHeroesToList(other.gameObject);
         }
