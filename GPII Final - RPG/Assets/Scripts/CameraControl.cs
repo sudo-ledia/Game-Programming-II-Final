@@ -11,6 +11,7 @@ public class CameraControl : MonoBehaviour
     public Transform playerObj;
     public GameObject enemy;
     public Rigidbody rb;
+    public GameObject targetLock;
 
     public float rotationSpeed;
 
@@ -36,7 +37,11 @@ public class CameraControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (enemy != null)
+        {
+            targetLock.transform.position = enemy.transform.position;
+        }
+        
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             isTargeting = !isTargeting;
@@ -59,6 +64,7 @@ public class CameraControl : MonoBehaviour
 
         if(isTargeting)
         {
+            targetLock.SetActive(true);
             virtualCamera.SetActive(true);
             freeLookCamera.SetActive(false);
             TargetCam();
@@ -74,6 +80,7 @@ public class CameraControl : MonoBehaviour
         }
         else if(!isTargeting)
         {
+            targetLock.SetActive(false);
             virtualCamera.SetActive(false);
             freeLookCamera.SetActive(true);
             FreeLookCam();

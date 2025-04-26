@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyBase : MonoBehaviour
 {
@@ -23,6 +24,12 @@ public class EnemyBase : MonoBehaviour
 
     public int currentHeroIndex = 0;
 
+    public string currentState = "Roaming";
+
+    public NavMeshAgent agent;
+    public float range;
+    public Transform centrePoint;
+
     public List<GameObject> heroesInRange = new List<GameObject>();
 
     void Awake()
@@ -37,19 +44,44 @@ public class EnemyBase : MonoBehaviour
         //?.GetComponent<Transform>()
         cameraControl = FindObjectOfType<CameraControl>();
         attackInterval = Random.Range(lowInterval, highInterval);
+
     }
     // Update is called once per frame
     void Update()
     {
+        BaseUpdate();
+        CustomUpdate();
+    }
+
+    private void BaseUpdate()
+    {
         DisplayInfo();
         Health();
         HasTarget();
-        if (hero != null)
+        PurgeHeroes();
+
+        if (hero != null && currentState == "Attacking")
         {
             Attack();
         }
-        PurgeHeroes();
+        else if (hero == null && currentState == "Attacking")
+        {
+            currentState = "Roaming";
+        }
+        
+        if (currentState == "Roaming")
+        {
+            Roaming();
+        }
 
+        if (heroesInRange.Count <= 0)
+        {
+            hero = null;
+        }
+    }
+
+    protected virtual void CustomUpdate()
+    {
 
     }
 
@@ -129,7 +161,38 @@ public class EnemyBase : MonoBehaviour
             hero.GetComponent<HeroBase>().health -= 1;
             attackTimer = 0f;
             attackInterval = Random.Range(lowInterval, highInterval);
+
+            Vector3 enemyDir = hero.transform.position - transform.position;
+            enemyDir.y = 0;
+            Quaternion enemyTargetRotation = Quaternion.LookRotation(enemyDir);
+            transform.rotation = enemyTargetRotation;
+
+            transform.forward = enemyDir.normalized;
         }
+    }
+
+    public void Roaming()
+    {
+        if (agent.remainingDistance <= agent.stoppingDistance)
+        {
+            Vector3 point;
+            if (RandomPoint(centrePoint.position, range, out point))
+            agent.SetDestination(point);
+        }
+    }
+
+    bool RandomPoint(Vector3 center, float range, out Vector3 result)
+    {
+        Vector3 randomPoint = center + Random.insideUnitSphere * range;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+        {
+            result = hit.position;
+            return true;
+        }
+
+        result = Vector3.zero;
+        return false;
     }
 
     // Adding heroes to list
@@ -172,6 +235,7 @@ public class EnemyBase : MonoBehaviour
         {
             RemoveHeroesFromList(other.gameObject);
         }
+
+        
     }
-    
 }

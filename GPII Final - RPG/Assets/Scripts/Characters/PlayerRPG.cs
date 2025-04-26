@@ -9,6 +9,15 @@ public class PlayerRPG : PlayerMovement
     public GameObject enemy;
 
     public string atkDirection = "None";
+
+    public float autoTimer = 0f;
+    public float autoRelease = 3f;
+
+    public float cooldownTimer = 0f;
+    public float cooldownRelease = 3f;
+
+    public string currentState = "FreeRoam";
+    public bool isBattling = false;
     
     // Start is called before the first frame update
     void Start()
@@ -27,31 +36,70 @@ public class PlayerRPG : PlayerMovement
         DisplayHealth();
         PurgeEnemies();
         Health();
+        
+        
 
         enemy = cameraControl.enemy;
 
         if (enemy != null)
         {
+            if (Input.GetKeyDown(KeyCode.Return) && isBattling == false)
+            {
+                isBattling = true;
+                currentState = "BattleAuto";
+            }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
+                currentState = "BattleSpecial";
                 FrontAttack();
             }
 
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            if (Input.GetKeyDown(KeyCode.Alpha2))
             {
+                currentState = "BattleSpecial";
                 BackAttack();
             }
 
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
+                currentState = "BattleSpecial";
                 SideAttack();
+            }
+            
+            if (isBattling)
+            {
+                if (currentState == "BattleAuto")
+                {
+                    autoTimer += Time.deltaTime;
+                    AutoAttack();
+                }
+                else if (currentState == "BattleSpecial")
+                {
+                    autoTimer = autoRelease - 0.01f;
+                    cooldownTimer += Time.deltaTime;
+                    if (cooldownTimer >= cooldownRelease)
+                    {
+                        cooldownTimer = 0f;
+                        currentState = "BattleAuto";
+                    }
+                }
             }
         }
         else if (enemy == null)
         {
-            return;
+            isBattling = false;
+            currentState = "FreeRoam";
+            autoTimer = autoRelease - 0.01f;
         }
+    }
 
+    public void AutoAttack()
+    {
+        if (autoTimer >= autoRelease)
+        {
+            DirDmgMultiplier(1, 1);
+            autoTimer = 0f;
+        }
     }
 
     public void FrontAttack()
@@ -78,6 +126,7 @@ public class PlayerRPG : PlayerMovement
     public void DirDmgMultiplier(int baseDamage, int dmgMultiplier)
     {
         string relativeDir = enemy.GetComponent<EnemyBase>().GetDirectionOf(transform).ToString();
+        enemy.GetComponent<EnemyBase>().currentState = "Attacking";
 
         if (atkDirection == relativeDir)
         {

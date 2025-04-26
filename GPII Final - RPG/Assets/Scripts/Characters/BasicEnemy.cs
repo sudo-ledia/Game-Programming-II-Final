@@ -14,15 +14,8 @@ public class BasicEnemy : EnemyBase
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void CustomUpdate()
     {
-        DisplayInfo();
-        Health();
-        HasTarget();
-        if (hero != null)
-        {
-            Attack();
-        }
-        PurgeHeroes();
+        
     }
 }
