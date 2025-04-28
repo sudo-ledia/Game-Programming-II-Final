@@ -16,6 +16,9 @@ public class BasicEnemy : EnemyBase
     // Update is called once per frame
     protected override void CustomUpdate()
     {
+        if (health <= 0){
+            gameManager.score++;
+        }
         
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerRPG : PlayerMovement
 {
@@ -18,13 +19,18 @@ public class PlayerRPG : PlayerMovement
 
     public string currentState = "FreeRoam";
     public bool isBattling = false;
-    
+
+    public TextMeshProUGUI stateText;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        
         StartFunctions();
         // gameManager = FindObjectOfType<GameManager>();
         cameraControl = FindObjectOfType<CameraControl>();
+        stateText = GameObject.FindWithTag("CurrentState")?.GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -37,9 +43,10 @@ public class PlayerRPG : PlayerMovement
         PurgeEnemies();
         Health();
         
-        
-
+        stateText.text = "Current State: " + currentState;
         enemy = cameraControl.enemy;
+
+        cooldownTimer += Time.deltaTime;
 
         if (enemy != null)
         {
@@ -48,23 +55,33 @@ public class PlayerRPG : PlayerMovement
                 isBattling = true;
                 currentState = "BattleAuto";
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+
+            if (cooldownTimer >= cooldownRelease)
             {
-                currentState = "BattleSpecial";
-                FrontAttack();
+
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    currentState = "BattleSpecial";
+                    cooldownTimer = 0f;
+                    FrontAttack();
+                }
+
+                if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    currentState = "BattleSpecial";
+                    cooldownTimer = 0f;
+                    BackAttack();
+                }
+
+                if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    currentState = "BattleSpecial";
+                    cooldownTimer = 0f;
+                    SideAttack();
+                }
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                currentState = "BattleSpecial";
-                BackAttack();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                currentState = "BattleSpecial";
-                SideAttack();
-            }
+            
             
             if (isBattling)
             {
