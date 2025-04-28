@@ -22,6 +22,11 @@ public class PlayerRPG : PlayerMovement
 
     public TextMeshProUGUI stateText;
 
+    public GameObject targetInst;
+    public GameObject battleInst;
+    public GameObject battleInfo;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +47,24 @@ public class PlayerRPG : PlayerMovement
         DisplayHealth();
         PurgeEnemies();
         Health();
+
+        if(yourEnemiesInRange.Count > 0 && !isBattling && enemy == null)
+        {
+            targetInst.SetActive(true);
+        }
+        else
+        {
+            targetInst.SetActive(false);
+        }
+
+        if (yourEnemiesInRange.Count > 0 && !isBattling && enemy != null)
+        {
+            battleInst.SetActive(true);
+        }
+        else
+        {
+            battleInst.SetActive(false);
+        }
         
         stateText.text = "Current State: " + currentState;
         enemy = cameraControl.enemy;
@@ -56,7 +79,7 @@ public class PlayerRPG : PlayerMovement
                 currentState = "BattleAuto";
             }
 
-            if (cooldownTimer >= cooldownRelease)
+            if (cooldownTimer >= cooldownRelease && isBattling)
             {
 
                 if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -85,6 +108,8 @@ public class PlayerRPG : PlayerMovement
             
             if (isBattling)
             {
+                battleInfo.SetActive(true);
+
                 if (currentState == "BattleAuto")
                 {
                     autoTimer += Time.deltaTime;
@@ -104,6 +129,7 @@ public class PlayerRPG : PlayerMovement
         }
         else if (enemy == null)
         {
+            battleInfo.SetActive(false);
             isBattling = false;
             currentState = "FreeRoam";
             autoTimer = autoRelease - 0.01f;
