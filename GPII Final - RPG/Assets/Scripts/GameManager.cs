@@ -43,16 +43,26 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        scoreText.text = "Score: " + score;
-
-        if (Input.GetKey(KeyCode.Space) && SceneManager.GetActiveScene().buildIndex == 1)
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score;
+        }
+        
+        if (Input.GetKey(KeyCode.Space) && SceneManager.GetActiveScene().buildIndex == 0)
         {
             score = 0;
             hasTriedScoreText = false;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
-        if (score >= 4 && SceneManager.GetActiveScene().buildIndex == 0)
+        if (Input.GetKey(KeyCode.Space) && SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            score = 0;
+            hasTriedScoreText = false;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
+        }
+
+        if (score >= 4 && SceneManager.GetActiveScene().buildIndex == 1)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
